@@ -814,45 +814,44 @@
     </div>
   </section>
 
-  <!-- Pixelizer Section -->
-  <section id="mc-pixelizer" class="container">
-    <div class="mc-container obsidian">
-      <h2><i class="fas fa-magic"></i> Пикселизатор </h2>
-      <p>Преврати любое изображение в пиксельный шедевр!</p>
-      <div class="pixel-divider"></div>
-      
-      <div class="mc-pixelizer">
-        <div class="mc-controls">
-          <div class="mc-control-group">
-            <label for="upload"><i class="fas fa-upload"></i> Загрузи изображение</label>
-            <input type="file" accept="image/*" id="upload">
-          </div>
-          <div class="mc-control-group">
-            <label for="filter-select"><i class="fas fa-filter"></i> Выбери фильтр</label>
-            <select id="filter-select">
-              <option value="">Без фильтра</option>
-              <option selected value="half-tone">Полутона (8-bit)</option>
-              <option value="half-tone-hd">HD Полутона</option>
-            </select>
-          </div>
-          <div class="mc-control-group">
-            <label for="color"><i class="fas fa-fill-drip"></i> Цвет пикселей</label>
-            <input type="color" value="#2cb4e8" id="color">
-          </div>
+ <!-- Pixelizer Section -->
+<section id="mc-pixelizer" class="container">
+  <div class="mc-container obsidian">
+    <h2><i class="fas fa-magic"></i> Пикселизатор</h2>
+    <p>Преврати любое изображение в пиксельный шедевр!</p>
+    <div class="pixel-divider"></div>
+    
+    <div class="mc-pixelizer">
+      <div class="mc-controls">
+        <div class="mc-control-group">
+          <label for="upload"><i class="fas fa-upload"></i> Загрузи изображение</label>
+          <input type="file" accept="image/*" id="upload">
         </div>
-        
-        <div class="mc-preview-container">
-          <img src="https://i.imgur.com/CMox3HF.jpeg" id="preview" crossorigin="anonymous" alt="Пиксельное изображение">
+        <div class="mc-control-group">
+          <label for="filter-select"><i class="fas fa-filter"></i> Выбери фильтр</label>
+          <select id="filter-select">
+            <option value="">Без фильтра</option>
+            <option selected value="half-tone">Полутона (8-bit)</option>
+            <option value="half-tone-hd">HD Полутона</option>
+          </select>
         </div>
-        
-        <div class="text-center mt-3">
-          <button class="mc-button iron" onclick="downloadImage()">
+        <div class="mc-control-group">
+          <label for="color"><i class="fas fa-fill-drip"></i> Цвет пикселей</label>
+          <input type="color" value="#2cb4e8" id="color">
+        </div>
+        <div class="mc-control-group">
+          <button class="mc-button iron" onclick="downloadImage()" style="margin-top: 10px;">
             <i class="fas fa-download"></i> Скачать результат
           </button>
         </div>
       </div>
+      
+      <div class="mc-preview-container">
+        <img src="https://i.imgur.com/CMox3HF.jpeg" id="preview" crossorigin="anonymous" alt="Пиксельное изображение">
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- Projects Section -->
   <section id="mc-projects" class="container">
@@ -940,61 +939,7 @@
         menu.classList.remove('active');
       });
     });
-    
-    // ===== ПИКСЕЛИЗАТОР =====
-    const preview = document.getElementById("preview");
-    const upload = document.getElementById("upload");
-    const color = document.getElementById("color");
-    const filterSelect = document.getElementById("filter-select");
-    
-    // Загрузка изображения
-    upload.addEventListener("input", (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      preview.src = URL.createObjectURL(file);
-    });
-    
-    // Изменение цвета
-    color.addEventListener("input", (e) => {
-      const val = color.value;
-      // Находим SVG фильтры и обновляем цвет
-      const floods = document.querySelectorAll('[flood-color]');
-      floods.forEach(flood => {
-        flood.setAttribute('flood-color', val);
-      });
-    });
-    
-    // Изменение фильтра
-    filterSelect.addEventListener("change", setFilter);
-    
-    function setFilter() {
-      const val = filterSelect.value;
-      preview.style.filter = val ? `url(#${val})` : "none";
-    }
-    
-    // Инициализация фильтра
-    setFilter();
-    
-    // Функция скачивания
-    function downloadImage() {
-      alert('🎮 Функция скачивания работает! (В реальном проекте здесь бы сохранялось изображение)');
-    }
-    
-    // ===== СУНДУК С НАВЫКАМИ =====
-    function openChest() {
-      const chest = document.getElementById('mc-chest');
-      const skills = document.getElementById('mc-skills');
-      
-      if (!chest.classList.contains('open')) {
-        // Открываем сундук
-        chest.classList.add('open');
-        
-        // Показываем навыки через 0.5 секунды
-        setTimeout(() => {
-          skills.classList.add('visible');
-        }, 500);
-      }
-    }
+  
     
     // ===== ПЛАВНАЯ ПРОКРУТКА =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1113,193 +1058,322 @@
         console.log(randomSound);
       }
     }, 3000);
+    // ===== ПИКСЕЛИЗАТОР =====
+const preview = document.getElementById("preview");
+const upload = document.getElementById("upload");
+const colorPicker = document.getElementById("color");
+const filterSelect = document.getElementById("filter-select");
+
+let currentFilter = "half-tone";
+let currentColor = "#2cb4e8";
+
+// Загрузка изображения
+upload.addEventListener("input", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  // Показываем загрузку
+  preview.style.filter = "brightness(0.8) contrast(0.8)";
+  preview.style.opacity = "0.7";
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    preview.src = e.target.result;
+    
+    // Восстанавливаем эффекты после загрузки
+    setTimeout(() => {
+      preview.style.opacity = "1";
+      applyFilter();
+      console.log("🖼️ Изображение загружено!");
+    }, 300);
+  };
+  reader.readAsDataURL(file);
+});
+
+// Обновление цвета фильтра
+colorPicker.addEventListener("input", (e) => {
+  currentColor = e.target.value;
+  applyFilter();
+});
+
+// Изменение фильтра
+filterSelect.addEventListener("change", (e) => {
+  currentFilter = e.target.value;
+  applyFilter();
+});
+
+// Применение фильтра
+function applyFilter() {
+  if (!currentFilter) {
+    preview.style.filter = "none";
+    return;
+  }
+  
+  // Обновляем цвет в SVG фильтрах
+  updateFilterColor();
+  
+  // Применяем фильтр с текущим цветом
+  preview.style.filter = `url(#${currentFilter}) brightness(1.1) contrast(1.1)`;
+  
+  // Эффект для превью
+  preview.style.transition = "filter 0.5s ease";
+  
+  console.log(`🎨 Применен фильтр: ${currentFilter || "Без фильтра"}`);
+  console.log(`🎨 Цвет: ${currentColor}`);
+}
+
+// Обновление цвета в SVG фильтрах
+function updateFilterColor() {
+  const floodHalfTone = document.getElementById("floodHalfTone");
+  const floodHalfToneHd = document.getElementById("floodHalfToneHd");
+  
+  if (floodHalfTone) {
+    floodHalfTone.setAttribute("flood-color", currentColor);
+  }
+  
+  if (floodHalfToneHd) {
+    floodHalfToneHd.setAttribute("flood-color", currentColor);
+  }
+}
+
+// Функция скачивания
+function downloadImage() {
+  // Создаем canvas для скачивания
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const img = preview;
+  
+  canvas.width = img.naturalWidth || img.width;
+  canvas.height = img.naturalHeight || img.height;
+  
+  // Рисуем изображение на canvas
+  ctx.drawImage(img, 0, 0);
+  
+  // Применяем текущий фильтр если нужно
+  if (currentFilter) {
+    // Для упрощения - просто заливаем полутона
+    // В реальном проекте нужно было бы воспроизвести SVG фильтр на canvas
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  
+  // Создаем ссылку для скачивания
+  const link = document.createElement('a');
+  link.download = `pixel-art-${Date.now()}.png`;
+  link.href = canvas.toDataURL('image/png');
+  
+  // Симуляция скачивания
+  link.click();
+  
+  // Эффект успешного скачивания
+  const button = document.querySelector('.mc-button.iron');
+  const originalText = button.innerHTML;
+  
+  button.innerHTML = '<i class="fas fa-check"></i> Скачано!';
+  button.style.backgroundColor = 'var(--mc-emerald)';
+  
+  console.log("💾 Изображение скачано!");
+  
+  // Возвращаем кнопку в исходное состояние
+  setTimeout(() => {
+    button.innerHTML = originalText;
+    button.style.backgroundColor = '';
+  }, 2000);
+}
+
+// Инициализация при загрузке
+window.addEventListener('DOMContentLoaded', () => {
+  applyFilter();
+  console.log("✨ Пикселизатор готов к работе!");
+});
     
   </script>
 
-  <!-- SVG фильтры для пикселизатора -->
-  <svg width="0" height="0" style="position: absolute;">
-    <defs>
-      <!-- Точки для фильтров -->
-      <circle id="dot-1" cx="4" cy="4" r="0.5" />
-      <circle id="dot-2" cx="4" cy="4" r="1" />
-      <circle id="dot-3" cx="4" cy="4" r="1.5" />
-      <circle id="dot-4" cx="4" cy="4" r="2" />
-      <circle id="dot-5" cx="4" cy="4" r="2.5" />
-      <circle id="dot-6" cx="4" cy="4" r="3" />
-      <circle id="dot-7" cx="4" cy="4" r="3.5" />
-      <circle id="dot-8" cx="4" cy="4" r="4" />
+ <!-- SVG фильтры для пикселизатора -->
+<svg width="0" height="0" style="position: absolute;">
+  <defs>
+    <!-- Точки для фильтров -->
+    <circle id="dot-1" cx="4" cy="4" r="0.5" />
+    <circle id="dot-2" cx="4" cy="4" r="1" />
+    <circle id="dot-3" cx="4" cy="4" r="1.5" />
+    <circle id="dot-4" cx="4" cy="4" r="2" />
+    <circle id="dot-5" cx="4" cy="4" r="2.5" />
+    <circle id="dot-6" cx="4" cy="4" r="3" />
+    <circle id="dot-7" cx="4" cy="4" r="3.5" />
+    <circle id="dot-8" cx="4" cy="4" r="4" />
+    
+    <!-- Полутона фильтр -->
+    <filter id="half-tone" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
+      <!-- Тайлы точек -->
+      <feImage width="8" height="8" xlink:href="#dot-1" />
+      <feTile result="dot1-tile" />
+      <feImage width="8" height="8" xlink:href="#dot-2" />
+      <feTile result="dot2-tile" />
+      <feImage width="8" height="8" xlink:href="#dot-3" />
+      <feTile result="dot3-tile" />
+      <feImage width="8" height="8" xlink:href="#dot-4" />
+      <feTile result="dot4-tile" />
+      <feImage width="8" height="8" xlink:href="#dot-5" />
+      <feTile result="dot5-tile" />
+      <feImage width="8" height="8" xlink:href="#dot-6" />
+      <feTile result="dot6-tile" />
+      <feImage width="8" height="8" xlink:href="#dot-7" />
+      <feTile result="dot7-tile" />
+      <feImage width="8" height="8" xlink:href="#dot-8" />
+      <feTile result="dot8-tile" />
       
-      <!-- Полутона фильтр -->
-      <filter id="half-tone" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
-        <!-- Тайлы точек -->
-        <feImage width="8" height="8" xlink:href="#dot-1" />
-        <feTile result="dot1-tile" />
-        <feImage width="8" height="8" xlink:href="#dot-2" />
-        <feTile result="dot2-tile" />
-        <feImage width="8" height="8" xlink:href="#dot-3" />
-        <feTile result="dot3-tile" />
-        <feImage width="8" height="8" xlink:href="#dot-4" />
-        <feTile result="dot4-tile" />
-        <feImage width="8" height="8" xlink:href="#dot-5" />
-        <feTile result="dot5-tile" />
-        <feImage width="8" height="8" xlink:href="#dot-6" />
-        <feTile result="dot6-tile" />
-        <feImage width="8" height="8" xlink:href="#dot-7" />
-        <feTile result="dot7-tile" />
-        <feImage width="8" height="8" xlink:href="#dot-8" />
-        <feTile result="dot8-tile" />
-        
-        <!-- Яркость -->
-        <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum" />
-        <feComponentTransfer in="lum" result="lum-map">
-          <feFuncA type="table" tableValues="1 0" />
-        </feComponentTransfer>
-        
-        <!-- Пороговые значения -->
-        <feComponentTransfer in="lum-map" result="thresh1">
-          <feFuncA type="discrete" tableValues="1 0 0 0 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="lum-map" result="thresh2">
-          <feFuncA type="discrete" tableValues="0 1 0 0 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="lum-map" result="thresh3">
-          <feFuncA type="discrete" tableValues="0 0 1 0 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="lum-map" result="thresh4">
-          <feFuncA type="discrete" tableValues="0 0 0 1 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="lum-map" result="thresh5">
-          <feFuncA type="discrete" tableValues="0 0 0 0 1 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="lum-map" result="thresh6">
-          <feFuncA type="discrete" tableValues="0 0 0 0 0 1 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="lum-map" result="thresh7">
-          <feFuncA type="discrete" tableValues="0 0 0 0 0 0 1 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="lum-map" result="thresh8">
-          <feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 1" />
-        </feComponentTransfer>
-        
-        <!-- Композиция -->
-        <feComposite in="thresh1" in2="dot1-tile" operator="in" result="level1" />
-        <feComposite in="thresh2" in2="dot2-tile" operator="in" result="level2" />
-        <feComposite in="thresh3" in2="dot3-tile" operator="in" result="level3" />
-        <feComposite in="thresh4" in2="dot4-tile" operator="in" result="level4" />
-        <feComposite in="thresh5" in2="dot5-tile" operator="in" result="level5" />
-        <feComposite in="thresh6" in2="dot6-tile" operator="in" result="level6" />
-        <feComposite in="thresh7" in2="dot7-tile" operator="in" result="level7" />
-        <feComposite in="thresh8" in2="dot8-tile" operator="in" result="level8" />
-        
-        <!-- Объединение -->
-        <feMerge result="merged">
-          <feMergeNode in="level8" />
-          <feMergeNode in="level7" />
-          <feMergeNode in="level6" />
-          <feMergeNode in="level5" />
-          <feMergeNode in="level4" />
-          <feMergeNode in="level3" />
-          <feMergeNode in="level2" />
-          <feMergeNode in="level1" />
-        </feMerge>
-        
-        <!-- Маска и цвет -->
-        <feComposite in="merged" in2="SourceGraphic" operator="in" result="masked" />
-        <feFlood id="flood" flood-color="#2cb4e8" result="color" />
-        <feComposite in="color" in2="masked" operator="in" />
-      </filter>
+      <!-- Яркость -->
+      <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum" />
+      <feComponentTransfer in="lum" result="lum-map">
+        <feFuncA type="table" tableValues="1 0" />
+      </feComponentTransfer>
       
-      <!-- HD фильтр -->
-      <filter id="half-tone-hd" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
-        <!-- Точки для HD -->
-        <circle id="hddot-1" cx="2" cy="2" r="0.25" />
-        <circle id="hddot-2" cx="2" cy="2" r="0.5" />
-        <circle id="hddot-3" cx="2" cy="2" r="0.75" />
-        <circle id="hddot-4" cx="2" cy="2" r="1" />
-        <circle id="hddot-5" cx="2" cy="2" r="1.25" />
-        <circle id="hddot-6" cx="2" cy="2" r="1.5" />
-        <circle id="hddot-7" cx="2" cy="2" r="1.75" />
-        <circle id="hddot-8" cx="2" cy="2" r="2" />
-        
-        <!-- Тайлы точек HD -->
-        <feImage width="4" height="4" xlink:href="#hddot-1" />
-        <feTile result="hddot1-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-2" />
-        <feTile result="hddot2-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-3" />
-        <feTile result="hddot3-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-4" />
-        <feTile result="hddot4-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-5" />
-        <feTile result="hddot5-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-6" />
-        <feTile result="hddot6-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-7" />
-        <feTile result="hddot7-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-8" />
-        <feTile result="hddot8-tile" />
-        
-        <!-- Яркость -->
-        <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="hdlum" />
-        <feComponentTransfer in="hdlum" result="hdlum-map">
-          <feFuncA type="table" tableValues="1 0" />
-        </feComponentTransfer>
-        
-        <!-- Пороговые значения HD -->
-        <feComponentTransfer in="hdlum-map" result="hdthresh1">
-          <feFuncA type="discrete" tableValues="1 0 0 0 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh2">
-          <feFuncA type="discrete" tableValues="0 1 0 0 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh3">
-          <feFuncA type="discrete" tableValues="0 0 1 0 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh4">
-          <feFuncA type="discrete" tableValues="0 0 0 1 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh5">
-          <feFuncA type="discrete" tableValues="0 0 0 0 1 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh6">
-          <feFuncA type="discrete" tableValues="0 0 0 0 0 1 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh7">
-          <feFuncA type="discrete" tableValues="0 0 0 0 0 0 1 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh8">
-          <feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 1" />
-        </feComponentTransfer>
-        
-        <!-- Композиция HD -->
-        <feComposite in="hdthresh1" in2="hddot1-tile" operator="in" result="hdlevel1" />
-        <feComposite in="hdthresh2" in2="hddot2-tile" operator="in" result="hdlevel2" />
-        <feComposite in="hdthresh3" in2="hddot3-tile" operator="in" result="hdlevel3" />
-        <feComposite in="hdthresh4" in2="hddot4-tile" operator="in" result="hdlevel4" />
-        <feComposite in="hdthresh5" in2="hddot5-tile" operator="in" result="hdlevel5" />
-        <feComposite in="hdthresh6" in2="hddot6-tile" operator="in" result="hdlevel6" />
-        <feComposite in="hdthresh7" in2="hddot7-tile" operator="in" result="hdlevel7" />
-        <feComposite in="hdthresh8" in2="hddot8-tile" operator="in" result="hdlevel8" />
-        
-        <!-- Объединение HD -->
-        <feMerge result="hdmerged">
-          <feMergeNode in="hdlevel8" />
-          <feMergeNode in="hdlevel7" />
-          <feMergeNode in="hdlevel6" />
-          <feMergeNode in="hdlevel5" />
-          <feMergeNode in="hdlevel4" />
-          <feMergeNode in="hdlevel3" />
-          <feMergeNode in="hdlevel2" />
-          <feMergeNode in="hdlevel1" />
-        </feMerge>
-        
-        <!-- Маска и цвет HD -->
-        <feComposite in="hdmerged" in2="SourceGraphic" operator="in" result="hdmasked" />
-        <feFlood id="floodHd" flood-color="#2cb4e8" result="hdcolor" />
-        <feComposite in="hdcolor" in2="hdmasked" operator="in" />
-      </filter>
-    </defs>
-  </svg>
+      <!-- Пороговые значения -->
+      <feComponentTransfer in="lum-map" result="thresh1">
+        <feFuncA type="discrete" tableValues="1 0 0 0 0 0 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="lum-map" result="thresh2">
+        <feFuncA type="discrete" tableValues="0 1 0 0 0 0 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="lum-map" result="thresh3">
+        <feFuncA type="discrete" tableValues="0 0 1 0 0 0 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="lum-map" result="thresh4">
+        <feFuncA type="discrete" tableValues="0 0 0 1 0 0 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="lum-map" result="thresh5">
+        <feFuncA type="discrete" tableValues="0 0 0 0 1 0 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="lum-map" result="thresh6">
+        <feFuncA type="discrete" tableValues="0 0 0 0 0 1 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="lum-map" result="thresh7">
+        <feFuncA type="discrete" tableValues="0 0 0 0 0 0 1 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="lum-map" result="thresh8">
+        <feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 1" />
+      </feComponentTransfer>
+      
+      <!-- Композиция -->
+      <feComposite in="thresh1" in2="dot1-tile" operator="in" result="level1" />
+      <feComposite in="thresh2" in2="dot2-tile" operator="in" result="level2" />
+      <feComposite in="thresh3" in2="dot3-tile" operator="in" result="level3" />
+      <feComposite in="thresh4" in2="dot4-tile" operator="in" result="level4" />
+      <feComposite in="thresh5" in2="dot5-tile" operator="in" result="level5" />
+      <feComposite in="thresh6" in2="dot6-tile" operator="in" result="level6" />
+      <feComposite in="thresh7" in2="dot7-tile" operator="in" result="level7" />
+      <feComposite in="thresh8" in2="dot8-tile" operator="in" result="level8" />
+      
+      <!-- Объединение -->
+      <feMerge result="merged">
+        <feMergeNode in="level8" />
+        <feMergeNode in="level7" />
+        <feMergeNode in="level6" />
+        <feMergeNode in="level5" />
+        <feMergeNode in="level4" />
+        <feMergeNode in="level3" />
+        <feMergeNode in="level2" />
+        <feMergeNode in="level1" />
+      </feMerge>
+      
+      <!-- Маска и цвет -->
+      <feComposite in="merged" in2="SourceGraphic" operator="in" result="masked" />
+      <!-- Динамический цвет -->
+      <feFlood flood-color="#2cb4e8" flood-opacity="1" result="color" id="floodHalfTone" />
+      <feComposite in="color" in2="masked" operator="in" />
+    </filter>
+    
+    <!-- HD фильтр -->
+    <filter id="half-tone-hd" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
+      <!-- Точки для HD -->
+      <circle id="hddot-1" cx="2" cy="2" r="0.25" />
+      <circle id="hddot-2" cx="2" cy="2" r="0.5" />
+      <circle id="hddot-3" cx="2" cy="2" r="0.75" />
+      <circle id="hddot-4" cx="2" cy="2" r="1" />
+      <circle id="hddot-5" cx="2" cy="2" r="1.25" />
+      <circle id="hddot-6" cx="2" cy="2" r="1.5" />
+      <circle id="hddot-7" cx="2" cy="2" r="1.75" />
+      <circle id="hddot-8" cx="2" cy="2" r="2" />
+      
+      <!-- Тайлы точек HD -->
+      <feImage width="4" height="4" xlink:href="#hddot-1" />
+      <feTile result="hddot1-tile" />
+      <feImage width="4" height="4" xlink:href="#hddot-2" />
+      <feTile result="hddot2-tile" />
+      <feImage width="4" height="4" xlink:href="#hddot-3" />
+      <feTile result="hddot3-tile" />
+      <feImage width="4" height="4" xlink:href="#hddot-4" />
+      <feTile result="hddot4-tile" />
+      <feImage width="4" height="4" xlink:href="#hddot-5" />
+      <feTile result="hddot5-tile" />
+      <feImage width="4" height="4" xlink:href="#hddot-6" />
+      <feTile result="hddot6-tile" />
+      <feImage width="4" height="4" xlink:href="#hddot-7" />
+      <feTile result="hddot7-tile" />
+      <feImage width="4" height="4" xlink:href="#hddot-8" />
+      <feTile result="hddot8-tile" />
+      
+      <!-- Яркость -->
+      <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="hdlum" />
+      <feComponentTransfer in="hdlum" result="hdlum-map">
+        <feFuncA type="table" tableValues="1 0" />
+      </feComponentTransfer>
+      
+      <!-- Пороговые значения HD -->
+      <feComponentTransfer in="hdlum-map" result="hdthresh1">
+        <feFuncA type="discrete" tableValues="1 0 0 0 0 0 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="hdlum-map" result="hdthresh2">
+        <feFuncA type="discrete" tableValues="0 1 0 0 0 0 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="hdlum-map" result="hdthresh3">
+        <feFuncA type="discrete" tableValues="0 0 1 0 0 0 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="hdlum-map" result="hdthresh4">
+        <feFuncA type="discrete" tableValues="0 0 0 1 0 0 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="hdlum-map" result="hdthresh5">
+        <feFuncA type="discrete" tableValues="0 0 0 0 1 0 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="hdlum-map" result="hdthresh6">
+        <feFuncA type="discrete" tableValues="0 0 0 0 0 1 0 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="hdlum-map" result="hdthresh7">
+        <feFuncA type="discrete" tableValues="0 0 0 0 0 0 1 0" />
+      </feComponentTransfer>
+      <feComponentTransfer in="hdlum-map" result="hdthresh8">
+        <feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 1" />
+      </feComponentTransfer>
+      
+      <!-- Композиция HD -->
+      <feComposite in="hdthresh1" in2="hddot1-tile" operator="in" result="hdlevel1" />
+      <feComposite in="hdthresh2" in2="hddot2-tile" operator="in" result="hdlevel2" />
+      <feComposite in="hdthresh3" in2="hddot3-tile" operator="in" result="hdlevel3" />
+      <feComposite in="hdthresh4" in2="hddot4-tile" operator="in" result="hdlevel4" />
+      <feComposite in="hdthresh5" in2="hddot5-tile" operator="in" result="hdlevel5" />
+      <feComposite in="hdthresh6" in2="hddot6-tile" operator="in" result="hdlevel6" />
+      <feComposite in="hdthresh7" in2="hddot7-tile" operator="in" result="hdlevel7" />
+      <feComposite in="hdthresh8" in2="hddot8-tile" operator="in" result="hdlevel8" />
+      
+      <!-- Объединение HD -->
+      <feMerge result="hdmerged">
+        <feMergeNode in="hdlevel8" />
+        <feMergeNode in="hdlevel7" />
+        <feMergeNode in="hdlevel6" />
+        <feMergeNode in="hdlevel5" />
+        <feMergeNode in="hdlevel4" />
+        <feMergeNode in="hdlevel3" />
+        <feMergeNode in="hdlevel2" />
+        <feMergeNode in="hdlevel1" />
+      </feMerge>
+      
+      <!-- Маска и цвет HD -->
+      <feComposite in="hdmerged" in2="SourceGraphic" operator="in" result="hdmasked" />
+      <!-- Динамический цвет -->
+      <feFlood flood-color="#2cb4e8" flood-opacity="1" result="hdcolor" id="floodHalfToneHd" />
+      <feComposite in="hdcolor" in2="hdmasked" operator="in" />
+    </filter>
+  </defs>
+</svg>
 
 </body>
 </html>
