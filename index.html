@@ -525,129 +525,6 @@
       text-shadow: 2px 2px 0 var(--mc-shadow);
       border-top: 4px solid var(--mc-diamond);
     }
-
-    /* ===== CHEST SECTION ===== */
-    .mc-chest-section {
-      text-align: center;
-      padding: 50px;
-      background: rgba(0,0,0,0.7);
-      border: 8px solid var(--mc-obsidian);
-      margin-top: 50px;
-      position: relative;
-    }
-
-    .mc-chest-section::before {
-      content: '';
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-      border: 4px solid var(--mc-gold);
-      pointer-events: none;
-    }
-
-    .mc-chest-container {
-      display: inline-block;
-      cursor: pointer;
-      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      margin: 30px 0;
-    }
-
-    .mc-chest-container:hover {
-      transform: scale(1.1);
-    }
-
-    .mc-chest {
-      width: 200px;
-      height: 200px;
-      background: url('https://i.imgur.com/CMox3HF.jpeg') center/cover no-repeat;
-      border: 8px solid var(--mc-wood);
-      box-shadow: 
-        var(--block-shadow),
-        inset 0 0 50px rgba(0,0,0,0.5);
-      position: relative;
-      filter: sepia(0.5) contrast(1.2);
-      transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-
-    .mc-chest.open {
-      transform: translateY(-100px) rotateX(180deg);
-      opacity: 0;
-    }
-
-    .mc-chest::before {
-      content: '💎';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3rem;
-      filter: drop-shadow(0 0 10px var(--mc-diamond));
-    }
-
-    .mc-skills {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      margin-top: 40px;
-      opacity: 0;
-      transform: translateY(100px);
-      transition: all 1s ease;
-    }
-
-    .mc-skills.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .mc-skill-item {
-      background: linear-gradient(135deg, var(--mc-diamond), var(--mc-emerald));
-      color: var(--mc-text);
-      padding: 25px 15px;
-      border: 6px solid var(--mc-border);
-      font-family: 'Press Start 2P', cursive;
-      font-size: 1rem;
-      text-align: center;
-      box-shadow: var(--block-shadow);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .mc-skill-item:hover {
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 
-        0 10px 20px rgba(0,0,0,0.5),
-        0 0 30px currentColor;
-      animation: pulse 1s infinite;
-    }
-
-    .mc-skill-item::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        transparent,
-        rgba(255,255,255,0.1),
-        transparent
-      );
-      transform: rotate(45deg);
-      transition: all 0.5s;
-    }
-
-    .mc-skill-item:hover::before {
-      left: 100%;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: translateY(-5px) scale(1.05); }
-      50% { transform: translateY(-5px) scale(1.08); }
-    }
-
     /* ===== FOOTER ===== */
     .mc-footer {
       background: linear-gradient(180deg, var(--mc-coal) 0%, #111 100%);
@@ -899,7 +776,7 @@
       <h2><i class="fas fa-user-alt"></i> Обо мне</h2>
       <div class="pixel-divider"></div>
       <p>
-        <strong style="color: var(--mc-gold);">Crafting digital experiences since 2020</strong><br>
+        <strong style="color: var(--mc-gold);">Crafting digital experiences since 2024</strong><br>
         Я как крафтер в Minecraft - собираю идеальные интерфейсы из отдельных блоков-компонентов. 
         Каждый проект - это новая биома, требующая уникального подхода!
       </p>
@@ -941,7 +818,7 @@
   <!-- Pixelizer Section -->
   <section id="mc-pixelizer" class="container">
     <div class="mc-container obsidian">
-      <h2><i class="fas fa-magic"></i> Пикселизатор 3000</h2>
+      <h2><i class="fas fa-magic"></i> Пикселизатор </h2>
       <p>Преврати любое изображение в пиксельный шедевр!</p>
       <div class="pixel-divider"></div>
       
@@ -1007,35 +884,6 @@
       </div>
     </div>
   </section>
-
-  <!-- Skills Chest -->
-  <section id="mc-skills" class="container">
-    <div class="mc-chest-section">
-      <h2><i class="fas fa-gem"></i> Сундук Навыков</h2>
-      <p>Нажми на сундук, чтобы открыть мои скиллы!</p>
-      <div class="pixel-divider"></div>
-      
-      <div class="mc-chest-container" onclick="openChest()">
-        <div class="mc-chest" id="chest"></div>
-        <div style="background: rgba(0,0,0,0.7); border: 4px solid var(--mc-border); padding: 15px; margin-top: 20px; box-shadow: var(--block-shadow);">
-          <p style="font-family: 'Press Start 2P', cursive; font-size: 0.8rem; color: var(--mc-gold);">
-            Открой меня! Тут лежат навыки разработчика!
-          </p>
-        </div>
-      </div>
-      
-      <div class="mc-skills" id="skills">
-        <div class="mc-skill-item">HTML5</div>
-        <div class="mc-skill-item">CSS3</div>
-        <div class="mc-skill-item">JavaScript</div>
-        <div class="mc-skill-item">React</div>
-        <div class="mc-skill-item">Figma</div>
-        <div class="mc-skill-item">Git</div>
-        <div class="mc-skill-item">Webpack</div>
-        <div class="mc-skill-item">Sass</div>
-      </div>
-    </div>
-  </section>
   <!-- Footer -->
   <footer class="mc-footer">
     <div class="container">
@@ -1073,7 +921,7 @@
       </div>
       
       <div class="mc-copyright">
-        <p>© 2024 PixelCraft Dev. Все права защищены.</p>
+        <p>© 2026 PixelCraft Dev. Все права защищены.</p>
         <p>Minecraft стиль - made with ❤️ и ⚡</p>
       </div>
     </div>
@@ -1267,79 +1115,6 @@
         console.log(randomSound);
       }
     }, 3000);
-          // ===== КРУТОЙ СУНДУК С НАВЫКАМИ =====
-    function openChest() {
-      const chest = document.getElementById("chest");
-      const skills = document.getElementById("skills");
-      
-      if (!chest.classList.contains('open')) {
-        // Звуковой эффект (в консоли)
-        console.log('🔊 block.chest.open');
-        
-        // Анимация открытия с эффектами
-        chest.style.transform = 'translateY(-20px)';
-        chest.style.boxShadow = '0 0 40px var(--mc-gold), var(--block-shadow)';
-        
-        setTimeout(() => {
-          chest.classList.add('open');
-          chest.style.boxShadow = '0 0 60px var(--mc-diamond), var(--block-shadow)';
-          
-          // Эффект частиц
-          createChestParticles();
-          
-          // Показываем навыки с задержкой для каждого
-          setTimeout(() => {
-            skills.classList.add('visible');
-            
-            // Анимация появления каждого навыка по очереди
-            const skillItems = document.querySelectorAll('.mc-skill-item');
-            skillItems.forEach((skill, index) => {
-              setTimeout(() => {
-                skill.style.opacity = '1';
-                skill.style.transform = 'translateY(0) scale(1)';
-                skill.style.boxShadow = 'var(--block-shadow)';
-                
-                // Эффект при появлении
-                skill.style.animation = 'pulse 0.5s ease';
-                
-                // Звук при появлении каждого навыка
-                console.log(`🔊 entity.experience_orb.pickup (${index + 1})`);
-              }, index * 100); // Задержка 100мс между каждым навыком
-            });
-          }, 800);
-        }, 300);
-      }
-    }
-    
-    // Создание частиц для сундука
-    function createChestParticles() {
-      const chest = document.getElementById('chest');
-      const chestRect = chest.getBoundingClientRect();
-      
-      for (let i = 0; i < 15; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'mc-particle';
-        particle.style.left = (chestRect.left + chestRect.width / 2) + 'px';
-        particle.style.top = (chestRect.top + chestRect.height / 2) + 'px';
-        particle.style.position = 'fixed';
-        particle.style.animationDelay = (i * 0.1) + 's';
-        particle.style.backgroundColor = 
-          Math.random() > 0.7 ? 'var(--mc-diamond)' : 
-          Math.random() > 0.5 ? 'var(--mc-emerald)' : 'var(--mc-gold)';
-        particle.style.width = '6px';
-        particle.style.height = '6px';
-        particle.style.zIndex = '1001';
-        
-        document.body.appendChild(particle);
-        
-        // Удаляем частицу после анимации
-        setTimeout(() => {
-          if (particle.parentNode) {
-            particle.parentNode.removeChild(particle);
-          }
-        }, 3000);
-      }
-    }
     
   </script>
 
