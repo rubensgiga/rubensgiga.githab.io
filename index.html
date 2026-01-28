@@ -477,6 +477,103 @@
       filter: contrast(1.2) saturate(1.2);
     }
 
+    /* ===== GEOMETRY DASH GAME ===== */
+    .mc-game-container {
+      background: linear-gradient(135deg, #1a0033 0%, #330033 50%, #1a0033 100%);
+      border: 8px solid var(--mc-obsidian);
+      box-shadow: var(--block-shadow);
+      padding: 25px;
+      margin: 30px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 4px solid var(--mc-diamond);
+    }
+
+    .game-stats {
+      display: flex;
+      gap: 20px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.8rem;
+    }
+
+    .game-stat {
+      color: var(--mc-gold);
+      text-shadow: 0 0 10px currentColor;
+    }
+
+    #game-canvas {
+      display: block;
+      margin: 0 auto;
+      background: linear-gradient(to bottom, #000033, #330066);
+      border: 6px solid var(--mc-border);
+      box-shadow: 
+        inset 0 0 30px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(44, 180, 232, 0.3);
+      image-rendering: pixelated;
+      cursor: pointer;
+    }
+
+    .game-controls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 25px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 4px solid var(--mc-border);
+    }
+
+    .control-key {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .key-visual {
+      width: 80px;
+      height: 80px;
+      background: var(--mc-diamond);
+      border: 5px solid var(--mc-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 2rem;
+      color: white;
+      box-shadow: 0 0 20px rgba(44, 180, 232, 0.5);
+      transition: all 0.1s ease;
+    }
+
+    .key-visual.active {
+      background: var(--mc-emerald);
+      transform: scale(0.95);
+      box-shadow: 0 0 30px rgba(0, 168, 45, 0.7);
+    }
+
+    .key-label {
+      font-family: 'Press Start 2P', cursive;
+      color: var(--mc-light-green);
+      font-size: 0.7rem;
+    }
+
+    .game-instructions {
+      margin-top: 25px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 4px solid var(--mc-border);
+      text-align: center;
+    }
+
     /* ===== PROJECTS CAROUSEL ===== */
     .mc-carousel {
       display: grid;
@@ -602,6 +699,11 @@
       
       h1 { font-size: 2rem; }
       h2 { font-size: 1.5rem; }
+      
+      #game-canvas {
+        width: 100% !important;
+        height: 400px !important;
+      }
     }
 
     @media (max-width: 768px) {
@@ -651,14 +753,44 @@
       .mc-social {
         justify-content: center;
       }
+      
+      .game-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .game-controls {
+        flex-wrap: wrap;
+      }
+      
+      .control-key {
+        flex: 1;
+        min-width: 120px;
+      }
+      
+      #game-canvas {
+        height: 350px !important;
+      }
     }
 
     @media (max-width: 576px) {
       body { padding: 10px; }
       .mc-container { padding: 15px; }
       .mc-button { min-width: 150px; padding: 12px 20px; }
+      
       .mc-preview-container img {
         height: 250px;
+      }
+      
+      #game-canvas {
+        height: 300px !important;
+      }
+      
+      .key-visual {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
       }
     }
 
@@ -709,6 +841,7 @@
           <li><a href="#mc-about">Обо мне</a></li>
           <li><a href="#mc-pixelizer">Пикселизатор</a></li>
           <li><a href="#mc-projects">Проекты</a></li>
+          <li><a href="#mc-game">Игра</a></li>
         </ul>
       </nav>
     </div>
@@ -844,6 +977,48 @@
         <a href="https://github.com/rubensgiga" class="mc-button gold" target="_blank">
           <i class="fab fa-github"></i> Больше на GitHub
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Geometry Dash Game Section -->
+  <section id="mc-game" class="container">
+    <div class="mc-game-container">
+      <h2 class="text-center"><i class="fas fa-gamepad"></i> Cube Dash</h2>
+      <p class="text-center">Прыгай через препятствия и собирай кристаллы! Используй ПРОБЕЛ или клик мышкой.</p>
+      <div class="pixel-divider"></div>
+      <div class="game-header">
+        <div class="game-stats">
+          <div class="game-stat" id="score">Счет: <span>0</span></div>
+          <div class="game-stat" id="high-score">Рекорд: <span>0</span></div>
+          <div class="game-stat" id="distance">Дистанция: <span>0м</span></div>
+          <div class="game-stat" id="speed">Скорость: <span>x1.0</span></div>
+        </div>
+        <div>
+          <button id="start-game" class="mc-button diamond">
+            <i class="fas fa-play"></i> Старт
+          </button>
+          <button id="restart-game" class="mc-button iron" style="margin-left: 10px;">
+            <i class="fas fa-redo"></i> Рестарт
+          </button>
+        </div>
+      </div>
+      <canvas id="game-canvas" width="800" height="500"></canvas>
+      <div class="game-controls">
+        <div class="control-key">
+          <div class="key-visual" id="space-key">
+            <i class="fas fa-arrow-up"></i>
+          </div>
+          <div class="key-label">ПРОБЕЛ / ЛКМ</div>
+          <div class="key-label">Прыжок</div>
+        </div>
+      </div>
+      <div class="game-instructions">
+        <h3><i class="fas fa-info-circle"></i> Управление:</h3>
+        <p>• <strong>ПРОБЕЛ</strong> или <strong>Клик мыши</strong> — прыжок</p>
+        <p>• Избегайте красных пикселей-шипов</p>
+        <p>• Собирайте синие пиксели-кристаллы для очков</p>
+        <p>• Чем дальше пройдете, тем выше скорость!</p>
       </div>
     </div>
   </section>
@@ -994,6 +1169,267 @@
         }
       });
     });
+
+    // ===== GEOMETRY DASH GAME =====
+    class GeometryDashGame {
+      constructor() {
+        this.canvas = document.getElementById('game-canvas');
+        this.ctx = this.canvas.getContext('2d');
+
+        this.isRunning = false;
+        this.isGameOver = false;
+
+        // GAME VALUES
+        this.score = 0;
+        this.highScore = localStorage.getItem('gd_highscore') || 0;
+        this.distance = 0;
+        this.speed = 1;
+
+        // PHYSICS
+        this.gravity = 0.6;
+        this.jumpForce = -13;
+
+        // PLATFORM
+        this.groundY = this.canvas.height - 120;
+
+        // PLAYER
+        this.player = {
+          x: 120,
+          y: this.groundY - 40,
+          size: 40,
+          velocityY: 0,
+          isJumping: false,
+          rotation: 0
+        };
+
+        // OBJECTS
+        this.obstacles = [];
+        this.crystals = [];
+        this.obstacleTimer = 0;
+        this.crystalTimer = 0;
+
+        this.init();
+      }
+
+      init() {
+        document.getElementById('high-score').querySelector('span').textContent = this.highScore;
+
+        document.addEventListener('keydown', e => {
+          if (e.code === 'Space') {
+            e.preventDefault();
+            this.jump();
+          }
+        });
+
+        this.canvas.addEventListener('mousedown', () => this.jump());
+
+        document.getElementById('start-game').onclick = () => this.start();
+        document.getElementById('restart-game').onclick = () => this.start();
+
+        this.draw();
+      }
+
+      start() {
+        this.isRunning = true;
+        this.isGameOver = false;
+
+        this.score = 0;
+        this.distance = 0;
+        this.speed = 1;
+
+        this.player.y = this.groundY - this.player.size;
+        this.player.velocityY = 0;
+        this.player.isJumping = false;
+        this.player.rotation = 0;
+
+        this.obstacles = [];
+        this.crystals = [];
+
+        this.updateStats();
+        this.loop();
+      }
+
+      loop() {
+        if (!this.isRunning || this.isGameOver) return;
+        this.update();
+        this.draw();
+        requestAnimationFrame(() => this.loop());
+      }
+
+      update() {
+        // PLAYER
+        this.player.velocityY += this.gravity;
+        this.player.y += this.player.velocityY;
+
+        if (this.player.isJumping) {
+          this.player.rotation += 12;
+        }
+
+        // GROUND COLLISION
+        if (this.player.y >= this.groundY - this.player.size) {
+          this.player.y = this.groundY - this.player.size;
+          this.player.velocityY = 0;
+          this.player.isJumping = false;
+          this.player.rotation = 0;
+        }
+
+        // SPAWN
+        this.obstacleTimer++;
+        if (this.obstacleTimer > 90 / this.speed) {
+          this.spawnObstacle();
+          this.obstacleTimer = 0;
+        }
+
+        this.crystalTimer++;
+        if (this.crystalTimer > 130) {
+          this.spawnCrystal();
+          this.crystalTimer = 0;
+        }
+
+        // MOVE OBSTACLES
+        this.obstacles.forEach((o, i) => {
+          o.x -= 6 * this.speed;
+          if (o.x + o.w < 0) {
+            this.obstacles.splice(i, 1);
+            this.score += 10;
+          }
+        });
+
+        // MOVE CRYSTALS
+        this.crystals.forEach((c, i) => {
+          c.x -= 6 * this.speed;
+          if (c.x < -30) this.crystals.splice(i, 1);
+        });
+
+        this.checkCollisions();
+
+        // DIFFICULTY
+        this.distance += 0.1 * this.speed;
+        if (this.distance % 120 < 0.1) this.speed += 0.1;
+
+        this.updateStats();
+      }
+
+      spawnObstacle() {
+        const h = Math.random() * 40 + 40;
+        this.obstacles.push({
+          x: this.canvas.width,
+          y: this.groundY - h,
+          w: 34,
+          h
+        });
+      }
+
+      spawnCrystal() {
+        this.crystals.push({
+          x: this.canvas.width,
+          y: this.groundY - 120 - Math.random() * 120,
+          r: 10
+        });
+      }
+
+      checkCollisions() {
+        // SPIKES
+        this.obstacles.forEach(o => {
+          if (
+            this.player.x < o.x + o.w &&
+            this.player.x + this.player.size > o.x &&
+            this.player.y < o.y + o.h &&
+            this.player.y + this.player.size > o.y
+          ) this.gameOver();
+        });
+
+        // CRYSTALS
+        this.crystals.forEach((c, i) => {
+          const dx = this.player.x + 20 - (c.x + 10);
+          const dy = this.player.y + 20 - (c.y + 10);
+          if (Math.hypot(dx, dy) < 26) {
+            this.score += 50;
+            this.crystals.splice(i, 1);
+          }
+        });
+      }
+
+      jump() {
+        if (!this.isRunning || this.player.isJumping) return;
+        this.player.velocityY = this.jumpForce;
+        this.player.isJumping = true;
+      }
+
+      gameOver() {
+        this.isGameOver = true;
+        this.isRunning = false;
+
+        if (this.score > this.highScore) {
+          this.highScore = this.score;
+          localStorage.setItem('gd_highscore', this.highScore);
+        }
+
+        this.draw();
+
+        this.ctx.fillStyle = 'rgba(255,0,0,0.25)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.ctx.fillStyle = '#fff';
+        this.ctx.font = '32px monospace';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('GAME OVER', this.canvas.width / 2, this.canvas.height / 2);
+      }
+
+      updateStats() {
+        document.getElementById('score').querySelector('span').textContent = this.score;
+        document.getElementById('distance').querySelector('span').textContent = `${Math.floor(this.distance)}м`;
+        document.getElementById('speed').querySelector('span').textContent = `x${this.speed.toFixed(1)}`;
+        document.getElementById('high-score').querySelector('span').textContent = this.highScore;
+      }
+
+      draw() {
+        const ctx = this.ctx;
+
+        // BACKGROUND
+        ctx.fillStyle = '#0b0e1a';
+        ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // PLATFORM
+        ctx.fillStyle = '#1e90ff';
+        ctx.fillRect(0, this.groundY, this.canvas.width, 6);
+
+        // PLAYER
+        ctx.save();
+        ctx.translate(this.player.x + 20, this.player.y + 20);
+        ctx.rotate(this.player.rotation * Math.PI / 180);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(-20, -20, 40, 40);
+        ctx.restore();
+
+        // SPIKES
+        ctx.fillStyle = '#ff3b3b';
+        this.obstacles.forEach(o => {
+          ctx.beginPath();
+          ctx.moveTo(o.x, o.y + o.h);
+          ctx.lineTo(o.x + o.w / 2, o.y);
+          ctx.lineTo(o.x + o.w, o.y + o.h);
+          ctx.fill();
+        });
+
+        // CRYSTALS
+        ctx.fillStyle = '#2cb4ff';
+        this.crystals.forEach(c => {
+          ctx.beginPath();
+          ctx.moveTo(c.x + 10, c.y);
+          ctx.lineTo(c.x + 20, c.y + 10);
+          ctx.lineTo(c.x + 10, c.y + 20);
+          ctx.lineTo(c.x, c.y + 10);
+          ctx.closePath();
+          ctx.fill();
+        });
+      }
+    }
+
+    let game;
+    window.onload = () => {
+      game = new GeometryDashGame();
+    };
   </script>
 
   <!-- SVG фильтры для пикселизатора -->
