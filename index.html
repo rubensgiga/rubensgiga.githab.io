@@ -371,6 +371,54 @@
             </div>
           </section>
         </main>
+          <div class="carousel">
+        <div class="project">
+          <iframe src="новая-папка/index3.html"></iframe>
+          <div class="project-title">🚖 Такси-сервис</div>
+        </div>
+        <div class="project">
+          <iframe src="новая-папка/index1.html"></iframe>
+          <div class="project-title">🎨 Дизайн-комьюнити</div>
+        </div>
+        <div class="project">
+          <iframe src="новая-папка/index2.html"></iframe>
+          <div class="project-title">🏠 Продажа домов</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="skills-section">
+      <div class="chest-container" onclick="openChest()">
+        <div class="chest" id="chest"></div>
+        <div class="message-box">
+          <p class="message-text">
+            Открой меня! Тут лежат навыки разработчика!
+          </p>
+        </div>
+      </div>
+
+      <div class="skills" id="skills">
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">React</div>
+        <div class="skill">Figma</div>
+        <div class="skill">Git</div>
+      </div>
+
+      <div class="skills-wall"></div>
+    </section>
+    <script>
+      function openChest() {
+        const chest = document.getElementById("chest");
+        const skills = document.getElementById("skills");
+
+        if (!chest.classList.contains("open")) {
+          chest.classList.add("open");
+          skills.classList.add("visible");
+        }
+      }
+    </script>
 
         <footer>
           <p>© 2025 Мой сайт Огонян Георг =]</p>
