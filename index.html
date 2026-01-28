@@ -844,18 +844,18 @@
     <div class="container">
       <div class="mc-logo">
         <i class="fas fa-cube"></i>
-        <span>PixelCraft_Dev</span>
+        <span>Pixel</span>
       </div>
       <button class="mc-mobile-toggle" onclick="toggleMCMenu()">
         <i class="fas fa-bars"></i>
       </button>
       <nav class="mc-nav">
         <ul id="mc-nav-menu">
-          <li><a href="#mc-hero" class="active"><i class="fas fa-home"></i> Главная</a></li>
-          <li><a href="#mc-about"><i class="fas fa-user"></i> Обо мне</a></li>
-          <li><a href="#mc-pixelizer"><i class="fas fa-image"></i> Пикселизатор</a></li>
-          <li><a href="#mc-projects"><i class="fas fa-project-diagram"></i> Проекты</a></li>
-          <li><a href="#mc-skills"><i class="fas fa-gem"></i> Навыки</a></li>
+          <li><a href="#mc-hero" class="active">Главное</a></li>
+          <li><a href="#mc-about">Обо мне</a></li>
+          <li><a href="#mc-pixelizer">Пикселизатор</a></li>
+          <li><a href="#mc-projects">Проекты</a></li>
+          <li><a href="#mc-skills">Навыки</a></li>
         </ul>
       </nav>
     </div>
@@ -936,25 +936,25 @@
       <div class="mc-pixelizer">
         <div class="mc-controls">
           <div class="mc-control-group">
-            <label for="mc-upload"><i class="fas fa-upload"></i> Загрузи изображение</label>
-            <input type="file" accept="image/*" id="mc-upload">
+            <label for="upload"><i class="fas fa-upload"></i> Загрузи изображение</label>
+            <input type="file" accept="image/*" id="upload">
           </div>
           <div class="mc-control-group">
-            <label for="mc-filter-select"><i class="fas fa-filter"></i> Выбери фильтр</label>
-            <select id="mc-filter-select">
+            <label for="filter-select"><i class="fas fa-filter"></i> Выбери фильтр</label>
+            <select id="filter-select">
               <option value="">Без фильтра</option>
               <option selected value="half-tone">Полутона (8-bit)</option>
               <option value="half-tone-hd">HD Полутона</option>
             </select>
           </div>
           <div class="mc-control-group">
-            <label for="mc-color"><i class="fas fa-fill-drip"></i> Цвет пикселей</label>
-            <input type="color" value="#2cb4e8" id="mc-color">
+            <label for="color"><i class="fas fa-fill-drip"></i> Цвет пикселей</label>
+            <input type="color" value="#2cb4e8" id="color">
           </div>
         </div>
         
         <div class="mc-preview-container">
-          <img src="https://i.imgur.com/CMox3HF.jpeg" id="mc-preview" crossorigin="anonymous" alt="Пиксельное изображение">
+          <img src="https://i.imgur.com/CMox3HF.jpeg" id="preview" crossorigin="anonymous" alt="Пиксельное изображение">
         </div>
         
         <div class="text-center mt-3">
@@ -999,16 +999,20 @@
   <!-- Skills Chest -->
   <section id="mc-skills" class="container">
     <div class="mc-chest-section">
-          <h2><i class="fas fa-gem"></i> Сундук Навыков</h2>
+      <h2><i class="fas fa-gem"></i> Сундук Навыков</h2>
       <p>Нажми на сундук, чтобы открыть мои скиллы!</p>
       <div class="pixel-divider"></div>
       
       <div class="mc-chest-container" onclick="openChest()">
-        <div class="mc-chest" id="mc-chest"></div>
-        <div class="mc-badge">Нажми меня!</div>
+        <div class="mc-chest" id="chest"></div>
+        <div style="background: rgba(0,0,0,0.7); border: 4px solid var(--mc-border); padding: 15px; margin-top: 20px; box-shadow: var(--block-shadow);">
+          <p style="font-family: 'Press Start 2P', cursive; font-size: 0.8rem; color: var(--mc-gold);">
+            Открой меня! Тут лежат навыки разработчика!
+          </p>
+        </div>
       </div>
       
-      <div class="mc-skills" id="mc-skills">
+      <div class="mc-skills" id="skills">
         <div class="mc-skill-item">HTML5</div>
         <div class="mc-skill-item">CSS3</div>
         <div class="mc-skill-item">JavaScript</div>
@@ -1020,7 +1024,6 @@
       </div>
     </div>
   </section>
-
   <!-- Footer -->
   <footer class="mc-footer">
     <div class="container">
@@ -1081,53 +1084,42 @@
     });
     
     // ===== ПИКСЕЛИЗАТОР =====
-    const uploadInput = document.getElementById('mc-upload');
-    const filterSelect = document.getElementById('mc-filter-select');
-    const colorInput = document.getElementById('mc-color');
-    const previewImg = document.getElementById('mc-preview');
+    const preview = document.getElementById("preview");
+    const upload = document.getElementById("upload");
+    const color = document.getElementById("color");
+    const filterSelect = document.getElementById("filter-select");
     
     // Загрузка изображения
-    if (uploadInput && previewImg) {
-      uploadInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          previewImg.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+    upload.addEventListener("input", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      preview.src = URL.createObjectURL(file);
+    });
     
     // Изменение цвета
-    if (colorInput) {
-      colorInput.addEventListener('input', function(e) {
-        const color = this.value;
-        // В реальном проекте здесь бы обновлялся цвет в SVG фильтрах
-        console.log('Цвет изменен на:', color);
+    color.addEventListener("input", (e) => {
+      const val = color.value;
+      // Находим SVG фильтры и обновляем цвет
+      const floods = document.querySelectorAll('[flood-color]');
+      floods.forEach(flood => {
+        flood.setAttribute('flood-color', val);
       });
-    }
+    });
     
     // Изменение фильтра
-    if (filterSelect) {
-      filterSelect.addEventListener('change', function() {
-        const filter = this.value;
-        if (filter) {
-          previewImg.style.filter = `url(#${filter})`;
-        } else {
-          previewImg.style.filter = 'none';
-        }
-      });
+    filterSelect.addEventListener("change", setFilter);
+    
+    function setFilter() {
+      const val = filterSelect.value;
+      preview.style.filter = val ? `url(#${val})` : "none";
     }
+    
+    // Инициализация фильтра
+    setFilter();
     
     // Функция скачивания
     function downloadImage() {
       alert('🎮 Функция скачивания работает! (В реальном проекте здесь бы сохранялось изображение)');
-      // В реальном проекте:
-      // 1. Создаем canvas
-      // 2. Рисуем изображение с фильтром
-      // 3. Скачиваем canvas как PNG
     }
     
     // ===== СУНДУК С НАВЫКАМИ =====
@@ -1211,11 +1203,8 @@
       // Создаем частицы
       createParticles();
       
-      // Имитируем загрузку (если нужен прелоадер)
-      setTimeout(() => {
-        console.log('🎮 Minecraft портфолио загружено!');
-        console.log('🚀 Готов к крафту интерфейсов!');
-      }, 1000);
+      console.log('🎮 Minecraft портфолио загружено!');
+      console.log('🚀 Готов к крафту интерфейсов!');
     });
     
     // ===== ЭФФЕКТ ПРИ НАВЕДЕНИИ НА НАВЫКИ =====
@@ -1266,24 +1255,34 @@
         console.log(randomSound);
       }
     }, 3000);
+        // ===== СУНДУК С НАВЫКАМИ =====
+    function openChest() {
+      const chest = document.getElementById("chest");
+      const skills = document.getElementById("skills");
+
+      if (!chest.classList.contains("open")) {
+        chest.classList.add("open");
+        skills.classList.add("visible");
+      }
+    }
     
   </script>
 
-  <!-- SVG фильтры для пикселизатора (скрыты) -->
+  <!-- SVG фильтры для пикселизатора -->
   <svg width="0" height="0" style="position: absolute;">
     <defs>
+      <!-- Точки для фильтров -->
+      <circle id="dot-1" cx="4" cy="4" r="0.5" />
+      <circle id="dot-2" cx="4" cy="4" r="1" />
+      <circle id="dot-3" cx="4" cy="4" r="1.5" />
+      <circle id="dot-4" cx="4" cy="4" r="2" />
+      <circle id="dot-5" cx="4" cy="4" r="2.5" />
+      <circle id="dot-6" cx="4" cy="4" r="3" />
+      <circle id="dot-7" cx="4" cy="4" r="3.5" />
+      <circle id="dot-8" cx="4" cy="4" r="4" />
+      
       <!-- Полутона фильтр -->
       <filter id="half-tone" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
-        <!-- Точки -->
-        <circle id="dot-1" cx="4" cy="4" r="0.5" />
-        <circle id="dot-2" cx="4" cy="4" r="1" />
-        <circle id="dot-3" cx="4" cy="4" r="1.5" />
-        <circle id="dot-4" cx="4" cy="4" r="2" />
-        <circle id="dot-5" cx="4" cy="4" r="2.5" />
-        <circle id="dot-6" cx="4" cy="4" r="3" />
-        <circle id="dot-7" cx="4" cy="4" r="3.5" />
-        <circle id="dot-8" cx="4" cy="4" r="4" />
-        
         <!-- Тайлы точек -->
         <feImage width="8" height="8" xlink:href="#dot-1" />
         <feTile result="dot1-tile" />
@@ -1358,13 +1357,98 @@
         
         <!-- Маска и цвет -->
         <feComposite in="merged" in2="SourceGraphic" operator="in" result="masked" />
-        <feFlood flood-color="#2cb4e8" result="color" />
+        <feFlood id="flood" flood-color="#2cb4e8" result="color" />
         <feComposite in="color" in2="masked" operator="in" />
       </filter>
       
       <!-- HD фильтр -->
       <filter id="half-tone-hd" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
-        <!-- Аналогичная структура с меньшими точками -->
+        <!-- Точки для HD -->
+        <circle id="hddot-1" cx="2" cy="2" r="0.25" />
+        <circle id="hddot-2" cx="2" cy="2" r="0.5" />
+        <circle id="hddot-3" cx="2" cy="2" r="0.75" />
+        <circle id="hddot-4" cx="2" cy="2" r="1" />
+        <circle id="hddot-5" cx="2" cy="2" r="1.25" />
+        <circle id="hddot-6" cx="2" cy="2" r="1.5" />
+        <circle id="hddot-7" cx="2" cy="2" r="1.75" />
+        <circle id="hddot-8" cx="2" cy="2" r="2" />
+        
+        <!-- Тайлы точек HD -->
+        <feImage width="4" height="4" xlink:href="#hddot-1" />
+        <feTile result="hddot1-tile" />
+        <feImage width="4" height="4" xlink:href="#hddot-2" />
+        <feTile result="hddot2-tile" />
+        <feImage width="4" height="4" xlink:href="#hddot-3" />
+        <feTile result="hddot3-tile" />
+        <feImage width="4" height="4" xlink:href="#hddot-4" />
+        <feTile result="hddot4-tile" />
+        <feImage width="4" height="4" xlink:href="#hddot-5" />
+        <feTile result="hddot5-tile" />
+        <feImage width="4" height="4" xlink:href="#hddot-6" />
+        <feTile result="hddot6-tile" />
+        <feImage width="4" height="4" xlink:href="#hddot-7" />
+        <feTile result="hddot7-tile" />
+        <feImage width="4" height="4" xlink:href="#hddot-8" />
+        <feTile result="hddot8-tile" />
+        
+        <!-- Яркость -->
+        <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="hdlum" />
+        <feComponentTransfer in="hdlum" result="hdlum-map">
+          <feFuncA type="table" tableValues="1 0" />
+        </feComponentTransfer>
+        
+        <!-- Пороговые значения HD -->
+        <feComponentTransfer in="hdlum-map" result="hdthresh1">
+          <feFuncA type="discrete" tableValues="1 0 0 0 0 0 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="hdlum-map" result="hdthresh2">
+          <feFuncA type="discrete" tableValues="0 1 0 0 0 0 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="hdlum-map" result="hdthresh3">
+          <feFuncA type="discrete" tableValues="0 0 1 0 0 0 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="hdlum-map" result="hdthresh4">
+          <feFuncA type="discrete" tableValues="0 0 0 1 0 0 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="hdlum-map" result="hdthresh5">
+          <feFuncA type="discrete" tableValues="0 0 0 0 1 0 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="hdlum-map" result="hdthresh6">
+          <feFuncA type="discrete" tableValues="0 0 0 0 0 1 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="hdlum-map" result="hdthresh7">
+          <feFuncA type="discrete" tableValues="0 0 0 0 0 0 1 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="hdlum-map" result="hdthresh8">
+          <feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 1" />
+        </feComponentTransfer>
+        
+        <!-- Композиция HD -->
+        <feComposite in="hdthresh1" in2="hddot1-tile" operator="in" result="hdlevel1" />
+        <feComposite in="hdthresh2" in2="hddot2-tile" operator="in" result="hdlevel2" />
+        <feComposite in="hdthresh3" in2="hddot3-tile" operator="in" result="hdlevel3" />
+        <feComposite in="hdthresh4" in2="hddot4-tile" operator="in" result="hdlevel4" />
+        <feComposite in="hdthresh5" in2="hddot5-tile" operator="in" result="hdlevel5" />
+        <feComposite in="hdthresh6" in2="hddot6-tile" operator="in" result="hdlevel6" />
+        <feComposite in="hdthresh7" in2="hddot7-tile" operator="in" result="hdlevel7" />
+        <feComposite in="hdthresh8" in2="hddot8-tile" operator="in" result="hdlevel8" />
+        
+        <!-- Объединение HD -->
+        <feMerge result="hdmerged">
+          <feMergeNode in="hdlevel8" />
+          <feMergeNode in="hdlevel7" />
+          <feMergeNode in="hdlevel6" />
+          <feMergeNode in="hdlevel5" />
+          <feMergeNode in="hdlevel4" />
+          <feMergeNode in="hdlevel3" />
+          <feMergeNode in="hdlevel2" />
+          <feMergeNode in="hdlevel1" />
+        </feMerge>
+        
+        <!-- Маска и цвет HD -->
+        <feComposite in="hdmerged" in2="SourceGraphic" operator="in" result="hdmasked" />
+        <feFlood id="floodHd" flood-color="#2cb4e8" result="hdcolor" />
+        <feComposite in="hdcolor" in2="hdmasked" operator="in" />
       </filter>
     </defs>
   </svg>
