@@ -836,6 +836,18 @@
       90% { opacity: 1; }
       100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
     }
+        /* Добавь это после существующего стиля .mc-preview-container img */
+    @media (max-width: 768px) {
+      .mc-preview-container img {
+        height: 300px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .mc-preview-container img {
+        height: 250px;
+      }
+    }
   </style>
 </head>
 <body>
