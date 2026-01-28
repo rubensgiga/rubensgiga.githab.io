@@ -1962,4 +1962,387 @@
   <!-- Skills Chest -->
   <section id="mc-skills" class="container">
     <div class="mc-chest-section">
-      <h2><i class="fas fa-
+    <div class="skill-item">CSS3</div>
+          <div class="skill-item">JavaScript</div>
+          <div class="skill-item">React</div>
+          <div class="skill-item">Git</div>
+          <div class="skill-item">Webpack</div>
+          <div class="skill-item">Figma</div>
+          <div class="skill-item">Sass</div>
+        </div>
+        
+        <div class="text-center mt-4">
+          <button class="mc-btn mc-btn-primary" onclick="resetChest()">
+            <i class="fas fa-redo"></i> Закрыть сундук
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Футер -->
+  <footer class="mc-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>PixelCraft Dev</h3>
+          <p>Создаю цифровые миры с 2023 года. Каждый проект - новая вселенная!</p>
+          <div class="social-links">
+            <a href="https://github.com/rubensgiga" class="social-link" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="#" class="social-link">
+              <i class="fab fa-telegram"></i>
+            </a>
+            <a href="#" class="social-link">
+              <i class="fab fa-discord"></i>
+            </a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h3>Технологии</h3>
+          <p>HTML5 / CSS3</p>
+          <p>JavaScript ES6+</p>
+          <p>React / Vue</p>
+          <p>Figma / Adobe XD</p>
+        </div>
+        <div class="footer-section">
+          <h3>Контакты</h3>
+          <p>Email: pixelcraft@dev.ru</p>
+          <p>Discord: PixelCraft#001</p>
+          <p>GitHub: rubensgiga</p>
+        </div>
+      </div>
+      <div class="mc-copyright">
+        <p>© 2024 PixelCraft Dev. Все права защищены. Minecraft - торговая марка Mojang AB.</p>
+        <p>Сделано с ❤️ и ⚡ редстоуном!</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SVG фильтры для пикселизатора -->
+  <svg width="0" height="0">
+    <defs>
+      <filter id="half-tone" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
+        <feImage width="8" height="8" xlink:href="#dot1" />
+        <feTile result="dot1-tile" />
+        <feImage width="8" height="8" xlink:href="#dot2" />
+        <feTile result="dot2-tile" />
+        <feImage width="8" height="8" xlink:href="#dot3" />
+        <feTile result="dot3-tile" />
+        <feImage width="8" height="8" xlink:href="#dot4" />
+        <feTile result="dot4-tile" />
+        <feImage width="8" height="8" xlink:href="#dot5" />
+        <feTile result="dot5-tile" />
+        <feImage width="8" height="8" xlink:href="#dot6" />
+        <feTile result="dot6-tile" />
+        <feImage width="8" height="8" xlink:href="#dot7" />
+        <feTile result="dot7-tile" />
+        <feImage width="8" height="8" xlink:href="#dot8" />
+        <feTile result="dot8-tile" />
+        
+        <!-- Яркость -->
+        <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum" />
+        <feComponentTransfer in="lum" result="lum-map">
+          <feFuncA type="table" tableValues="1 0" />
+        </feComponentTransfer>
+        
+        <!-- Пороговые значения -->
+        <feComponentTransfer in="lum-map" result="thresh1">
+          <feFuncA type="discrete" tableValues="1 0 0 0 0 0 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="lum-map" result="thresh2">
+          <feFuncA type="discrete" tableValues="0 1 0 0 0 0 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="lum-map" result="thresh3">
+          <feFuncA type="discrete" tableValues="0 0 1 0 0 0 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="lum-map" result="thresh4">
+          <feFuncA type="discrete" tableValues="0 0 0 1 0 0 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="lum-map" result="thresh5">
+          <feFuncA type="discrete" tableValues="0 0 0 0 1 0 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="lum-map" result="thresh6">
+          <feFuncA type="discrete" tableValues="0 0 0 0 0 1 0 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="lum-map" result="thresh7">
+          <feFuncA type="discrete" tableValues="0 0 0 0 0 0 1 0" />
+        </feComponentTransfer>
+        <feComponentTransfer in="lum-map" result="thresh8">
+          <feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 1" />
+        </feComponentTransfer>
+        
+        <!-- Объединение -->
+        <feComposite in="thresh1" in2="dot1-tile" operator="in" result="level1" />
+        <feComposite in="thresh2" in2="dot2-tile" operator="in" result="level2" />
+        <feComposite in="thresh3" in2="dot3-tile" operator="in" result="level3" />
+        <feComposite in="thresh4" in2="dot4-tile" operator="in" result="level4" />
+        <feComposite in="thresh5" in2="dot5-tile" operator="in" result="level5" />
+        <feComposite in="thresh6" in2="dot6-tile" operator="in" result="level6" />
+        <feComposite in="thresh7" in2="dot7-tile" operator="in" result="level7" />
+        <feComposite in="thresh8" in2="dot8-tile" operator="in" result="level8" />
+        
+        <feMerge result="merged">
+          <feMergeNode in="level8" />
+          <feMergeNode in="level7" />
+          <feMergeNode in="level6" />
+          <feMergeNode in="level5" />
+          <feMergeNode in="level4" />
+          <feMergeNode in="level3" />
+          <feMergeNode in="level2" />
+          <feMergeNode in="level1" />
+        </feMerge>
+        
+        <feComposite in="merged" in2="SourceGraphic" operator="in" result="masked" />
+        <feFlood flood-color="#00FFFF" result="color" />
+        <feComposite in="color" in2="masked" operator="in" />
+      </filter>
+      
+      <filter id="half-tone-hd" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
+        <!-- Аналогично, но с другими размерами -->
+      </filter>
+      
+      <!-- Точки для фильтров -->
+      <circle id="dot1" cx="4" cy="4" r="0.5" />
+      <circle id="dot2" cx="4" cy="4" r="1" />
+      <circle id="dot3" cx="4" cy="4" r="1.5" />
+      <circle id="dot4" cx="4" cy="4" r="2" />
+      <circle id="dot5" cx="4" cy="4" r="2.5" />
+      <circle id="dot6" cx="4" cy="4" r="3" />
+      <circle id="dot7" cx="4" cy="4" r="3.5" />
+      <circle id="dot8" cx="4" cy="4" r="4" />
+    </defs>
+  </svg>
+
+  <!-- JavaScript -->
+  <script>
+    // ===== ЗАГРУЗОЧНЫЙ ЭКРАН =====
+    document.addEventListener('DOMContentLoaded', function() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      const loadingProgress = document.getElementById('loadingProgress');
+      let progress = 0;
+      
+      // Имитация загрузки
+      const loadingInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 100) {
+          progress = 100;
+          clearInterval(loadingInterval);
+          
+          // Завершение загрузки
+          setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            
+            // Создаем частицы после загрузки
+            createParticles();
+          }, 500);
+        }
+        loadingProgress.style.width = progress + '%';
+      }, 100);
+      
+      // Если вдруг что-то пошло не так, скрываем через 3 секунды
+      setTimeout(() => {
+        if (!loadingScreen.classList.contains('hidden')) {
+          loadingScreen.classList.add('hidden');
+          createParticles();
+        }
+      }, 3000);
+    });
+    
+    // ===== ЧАСТИЦЫ =====
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      if (!particlesContainer) return;
+      
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.animationDelay = Math.random() * 3 + 's';
+        particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        particle.style.backgroundColor = 
+          Math.random() > 0.5 ? 'var(--mc-diamond)' : 
+          Math.random() > 0.5 ? 'var(--mc-emerald)' : 'var(--mc-gold)';
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // ===== МОБИЛЬНОЕ МЕНЮ =====
+    function toggleMenu() {
+      const nav = document.getElementById('mainNav');
+      nav.classList.toggle('active');
+    }
+    
+    // Закрытие меню при клике на ссылку
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const nav = document.getElementById('mainNav');
+        nav.classList.remove('active');
+      });
+    });
+    
+    // ===== ПИКСЕЛИЗАТОР =====
+    const pixelUpload = document.getElementById('pixelUpload');
+    const pixelFilter = document.getElementById('pixelFilter');
+    const pixelColor = document.getElementById('pixelColor');
+    const pixelPreview = document.getElementById('pixelPreview');
+    
+    if (pixelUpload && pixelPreview) {
+      pixelUpload.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          pixelPreview.src = e.target.result;
+          applyPixelFilter();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    
+    if (pixelFilter) {
+      pixelFilter.addEventListener('change', applyPixelFilter);
+    }
+    
+    if (pixelColor) {
+      pixelColor.addEventListener('input', function() {
+        const color = this.value;
+        // Обновляем цвет в фильтрах
+        const floods = document.querySelectorAll('[flood-color]');
+        floods.forEach(flood => {
+          flood.setAttribute('flood-color', color);
+        });
+        applyPixelFilter();
+      });
+    }
+    
+    function applyPixelFilter() {
+      if (!pixelPreview || !pixelFilter) return;
+      
+      const filter = pixelFilter.value;
+      if (filter) {
+        pixelPreview.style.filter = `url(#${filter})`;
+      } else {
+        pixelPreview.style.filter = 'none';
+      }
+    }
+    
+    function downloadPixelArt() {
+      alert('Функция скачивания активирована! (В реальном проекте здесь бы сохранялось изображение)');
+      // В реальном проекте здесь бы был код для сохранения canvas
+    }
+    
+    // ===== СУНДУК С НАВЫКАМИ =====
+    const mcChest = document.getElementById('mcChest');
+    const skillsGrid = document.getElementById('skillsGrid');
+    let chestOpen = false;
+    
+    if (mcChest) {
+      mcChest.addEventListener('click', openChest);
+    }
+    
+    function openChest() {
+      if (chestOpen) return;
+      
+      chestOpen = true;
+      mcChest.classList.add('open');
+      
+      setTimeout(() => {
+        skillsGrid.classList.add('visible');
+      }, 500);
+    }
+    
+    function resetChest() {
+      chestOpen = false;
+      mcChest.classList.remove('open');
+      skillsGrid.classList.remove('visible');
+    }
+    
+    // ===== ПЛАВНЫЙ СКРОЛЛ ДЛЯ ЯКОРЕЙ =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+        
+        // Обновляем активную ссылку в навигации
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.classList.remove('active');
+        });
+        this.classList.add('active');
+      });
+    });
+    
+    // ===== АКТИВНАЯ ССЫЛКА ПРИ СКРОЛЛЕ =====
+    window.addEventListener('scroll', function() {
+      const sections = document.querySelectorAll('section');
+      const navItems = document.querySelectorAll('.nav-item');
+      
+      let currentSection = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (scrollY >= (sectionTop - 100)) {
+          currentSection = '#' + section.getAttribute('id');
+        }
+      });
+      
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === currentSection) {
+          item.classList.add('active');
+        }
+      });
+    });
+    
+    // ===== ЭФФЕКТ ПРИ НАВЕДЕНИИ НА НАВЫКИ =====
+    document.querySelectorAll('.skill-item').forEach(skill => {
+      skill.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-15px) rotate(5deg) scale(1.1)';
+        this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.6), 0 0 30px currentColor';
+      });
+      
+      skill.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+        this.style.boxShadow = '';
+      });
+    });
+    
+    // ===== РАНДОМНЫЕ ЭФФЕКТЫ =====
+    setInterval(() => {
+      // Случайное мерцание заголовка
+      if (Math.random() > 0.7) {
+        const title = document.querySelector('.mc-title');
+        if (title) {
+          title.style.animation = 'titleGlow 0.5s infinite alternate';
+          setTimeout(() => {
+            title.style.animation = 'titleGlow 2s infinite alternate';
+          }, 500);
+        }
+      }
+      
+      // Случайные звуковые эффекты (в консоли)
+      if (Math.random() > 0.9) {
+        console.log('🔊 Minecraft sound: block.place');
+      }
+    }, 3000);
+    
+    // Инициализация
+    applyPixelFilter();
+    console.log('🎮 PixelCraft Dev loaded successfully!');
+    console.log('🚀 Ready to craft some pixels!');
+    
+  </script>
+</body>
+</html>
