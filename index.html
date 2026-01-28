@@ -1058,7 +1058,7 @@
       </div>
       
       <div class="mc-copyright">
-        <p>© 2024 PixelCraft Dev. Все права защищены.</p>
+        <p>© 2026 Pixel. Георг Огоян ┃ Все права защищены.</p>
         <p>Minecraft стиль - made with ❤️ и ⚡</p>
       </div>
     </div>
@@ -1252,7 +1252,15 @@
         console.log(randomSound);
       }
     }, 3000);
-    
+      function openChest() {
+        const chest = document.getElementById("chest");
+        const skills = document.getElementById("skills");
+
+        if (!chest.classList.contains("open")) {
+          chest.classList.add("open");
+          skills.classList.add("visible");
+        }
+      }
   </script>
 
   <!-- SVG фильтры для пикселизатора -->
