@@ -173,10 +173,6 @@
       color: var(--mc-shadow);
     }
 
-    .mc-button.nether {
-      background: var(--mc-nether);
-    }
-
     /* Minecraft блоки-контейнеры */
     .mc-container {
       background: var(--mc-stone);
@@ -536,22 +532,6 @@
       position: relative;
     }
 
-    .mc-footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: repeating-linear-gradient(
-        90deg,
-        var(--mc-diamond),
-        var(--mc-diamond) 10px,
-        transparent 10px,
-        transparent 20px
-      );
-    }
-
     .mc-footer-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -677,8 +657,9 @@
       body { padding: 10px; }
       .mc-container { padding: 15px; }
       .mc-button { min-width: 150px; padding: 12px 20px; }
-      .mc-chest { width: 150px; height: 150px; }
-      .mc-skill-item { padding: 15px 10px; font-size: 0.8rem; }
+      .mc-preview-container img {
+        height: 250px;
+      }
     }
 
     /* ===== UTILITY CLASSES ===== */
@@ -689,13 +670,8 @@
     }
 
     .text-center { text-align: center; }
-    .mt-1 { margin-top: 10px; }
-    .mt-2 { margin-top: 20px; }
     .mt-3 { margin-top: 30px; }
-    .mb-1 { margin-bottom: 10px; }
-    .mb-2 { margin-bottom: 20px; }
     .mb-3 { margin-bottom: 30px; }
-    .hidden { display: none; }
     
     /* Minecraft частицы */
     .mc-particle {
@@ -713,18 +689,6 @@
       10% { opacity: 1; }
       90% { opacity: 1; }
       100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-    }
-        /* Добавь это после существующего стиля .mc-preview-container img */
-    @media (max-width: 768px) {
-      .mc-preview-container img {
-        height: 300px;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .mc-preview-container img {
-        height: 250px;
-      }
     }
   </style>
 </head>
@@ -762,7 +726,7 @@
           <a href="#mc-projects" class="mc-button diamond">
             <i class="fas fa-eye"></i> Смотреть проекты
           </a>
-          <a href="#mc-about" class="mc-button emerald ml-2">
+          <a href="#mc-about" class="mc-button emerald">
             <i class="fas fa-info-circle"></i> Обо мне
           </a>
         </div>
@@ -783,7 +747,7 @@
       
       <div class="mt-3">
         <h3>Мой инвентарь навыков:</h3>
-        <div class="mt-2">
+        <div class="mt-3">
           <div class="mc-skill-block html" data-tooltip="HTML5"></div>
           <div class="mc-skill-block css" data-tooltip="CSS3"></div>
           <div class="mc-skill-block js" data-tooltip="JavaScript"></div>
@@ -833,7 +797,6 @@
             <select id="filter-select">
               <option value="">Без фильтра</option>
               <option selected value="half-tone">Полутона (8-bit)</option>
-              <option value="half-tone-hd">HD Полутона</option>
             </select>
           </div>
           <div class="mc-control-group">
@@ -884,6 +847,7 @@
       </div>
     </div>
   </section>
+
   <!-- Footer -->
   <footer class="mc-footer">
     <div class="container">
@@ -981,7 +945,6 @@
       alert('🎮 Функция скачивания работает! (В реальном проекте здесь бы сохранялось изображение)');
     }
     
-    
     // ===== ПЛАВНАЯ ПРОКРУТКА =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
@@ -1022,46 +985,6 @@
       });
     });
     
-    // ===== СОЗДАНИЕ ЧАСТИЦ =====
-    function createParticles() {
-      const particlesContainer = document.createElement('div');
-      particlesContainer.id = 'particles-container';
-      document.body.appendChild(particlesContainer);
-      
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'mc-particle';
-        particle.style.left = Math.random() * 100 + 'vw';
-        particle.style.animationDelay = Math.random() * 5 + 's';
-        particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        particle.style.backgroundColor = 
-          Math.random() > 0.7 ? 'var(--mc-diamond)' : 
-          Math.random() > 0.5 ? 'var(--mc-emerald)' : 'var(--mc-gold)';
-        
-        particlesContainer.appendChild(particle);
-      }
-    }
-    
-    // Создаем частицы после загрузки страницы
-    window.addEventListener('load', function() {
-      // Создаем частицы
-      createParticles();
-      
-      console.log('🎮 Minecraft портфолио загружено!');
-      console.log('🚀 Готов к крафту интерфейсов!');
-    });
-    
-    // ===== ЭФФЕКТ ПРИ НАВЕДЕНИИ НА НАВЫКИ =====
-    document.querySelectorAll('.mc-skill-item').forEach(skill => {
-      skill.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-10px) scale(1.1)';
-      });
-      
-      skill.addEventListener('mouseleave', function() {
-        this.style.transform = '';
-      });
-    });
-    
     // ===== ЭФФЕКТ ПРИ НАВЕДЕНИИ НА БЛОКИ НАВЫКОВ =====
     document.querySelectorAll('.mc-skill-block').forEach(block => {
       block.addEventListener('mouseenter', function() {
@@ -1071,21 +994,6 @@
         }
       });
     });
-    
-    // ===== СЛУЧАЙНЫЕ МАЙНКРАФТ ЭФФЕКТЫ =====
-    setInterval(() => {
-      // Случайное мерцание заголовка
-      if (Math.random() > 0.8) {
-        const titles = document.querySelectorAll('h1, h2');
-        const randomTitle = titles[Math.floor(Math.random() * titles.length)];
-        if (randomTitle) {
-          randomTitle.style.textShadow = '3px 3px 0 var(--mc-shadow), 0 0 20px var(--mc-diamond)';
-          setTimeout(() => {
-            randomTitle.style.textShadow = '3px 3px 0 var(--mc-shadow)';
-          }, 300);
-        }
-      }
-    
   </script>
 
   <!-- SVG фильтры для пикселизатора -->
@@ -1180,99 +1088,7 @@
         <feFlood id="flood" flood-color="#2cb4e8" result="color" />
         <feComposite in="color" in2="masked" operator="in" />
       </filter>
-      
-      <!-- HD фильтр -->
-      <filter id="half-tone-hd" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
-        <!-- Точки для HD -->
-        <circle id="hddot-1" cx="2" cy="2" r="0.25" />
-        <circle id="hddot-2" cx="2" cy="2" r="0.5" />
-        <circle id="hddot-3" cx="2" cy="2" r="0.75" />
-        <circle id="hddot-4" cx="2" cy="2" r="1" />
-        <circle id="hddot-5" cx="2" cy="2" r="1.25" />
-        <circle id="hddot-6" cx="2" cy="2" r="1.5" />
-        <circle id="hddot-7" cx="2" cy="2" r="1.75" />
-        <circle id="hddot-8" cx="2" cy="2" r="2" />
-        
-        <!-- Тайлы точек HD -->
-        <feImage width="4" height="4" xlink:href="#hddot-1" />
-        <feTile result="hddot1-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-2" />
-        <feTile result="hddot2-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-3" />
-        <feTile result="hddot3-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-4" />
-        <feTile result="hddot4-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-5" />
-        <feTile result="hddot5-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-6" />
-        <feTile result="hddot6-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-7" />
-        <feTile result="hddot7-tile" />
-        <feImage width="4" height="4" xlink:href="#hddot-8" />
-        <feTile result="hddot8-tile" />
-        
-        <!-- Яркость -->
-        <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="hdlum" />
-        <feComponentTransfer in="hdlum" result="hdlum-map">
-          <feFuncA type="table" tableValues="1 0" />
-        </feComponentTransfer>
-        
-        <!-- Пороговые значения HD -->
-        <feComponentTransfer in="hdlum-map" result="hdthresh1">
-          <feFuncA type="discrete" tableValues="1 0 0 0 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh2">
-          <feFuncA type="discrete" tableValues="0 1 0 0 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh3">
-          <feFuncA type="discrete" tableValues="0 0 1 0 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh4">
-          <feFuncA type="discrete" tableValues="0 0 0 1 0 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh5">
-          <feFuncA type="discrete" tableValues="0 0 0 0 1 0 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh6">
-          <feFuncA type="discrete" tableValues="0 0 0 0 0 1 0 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh7">
-          <feFuncA type="discrete" tableValues="0 0 0 0 0 0 1 0" />
-        </feComponentTransfer>
-        <feComponentTransfer in="hdlum-map" result="hdthresh8">
-          <feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 1" />
-        </feComponentTransfer>
-        
-        <!-- Композиция HD -->
-        <feComposite in="hdthresh1" in2="hddot1-tile" operator="in" result="hdlevel1" />
-        <feComposite in="hdthresh2" in2="hddot2-tile" operator="in" result="hdlevel2" />
-        <feComposite in="hdthresh3" in2="hddot3-tile" operator="in" result="hdlevel3" />
-        <feComposite in="hdthresh4" in2="hddot4-tile" operator="in" result="hdlevel4" />
-        <feComposite in="hdthresh5" in2="hddot5-tile" operator="in" result="hdlevel5" />
-        <feComposite in="hdthresh6" in2="hddot6-tile" operator="in" result="hdlevel6" />
-        <feComposite in="hdthresh7" in2="hddot7-tile" operator="in" result="hdlevel7" />
-        <feComposite in="hdthresh8" in2="hddot8-tile" operator="in" result="hdlevel8" />
-        
-        <!-- Объединение HD -->
-        <feMerge result="hdmerged">
-          <feMergeNode in="hdlevel8" />
-          <feMergeNode in="hdlevel7" />
-          <feMergeNode in="hdlevel6" />
-          <feMergeNode in="hdlevel5" />
-          <feMergeNode in="hdlevel4" />
-          <feMergeNode in="hdlevel3" />
-          <feMergeNode in="hdlevel2" />
-          <feMergeNode in="hdlevel1" />
-        </feMerge>
-        
-        <!-- Маска и цвет HD -->
-        <feComposite in="hdmerged" in2="SourceGraphic" operator="in" result="hdmasked" />
-        <feFlood id="floodHd" flood-color="#2cb4e8" result="hdcolor" />
-        <feComposite in="hdcolor" in2="hdmasked" operator="in" />
-      </filter>
     </defs>
   </svg>
-
 </body>
 </html>
-
